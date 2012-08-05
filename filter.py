@@ -16,11 +16,10 @@ class Filter(object):
 		return self.filter_by_strategy(sizeFilter, products)
 		
 	def by_color_and_size(self, products, product_color, product_size):
-		result = []
-		for product in products:
-			if product.Color == product_color and product.Size == product_size:
-				result.append(product)
-		return result
+		sizeFilter = SizeFilter(product_size)
+		sizeFilteredProducts = self.filter_by_strategy(sizeFilter, products)
+		colorFilter = ColorFilter(product_color)
+		return self.filter_by_strategy(colorFilter, sizeFilteredProducts)
 
 class ColorFilter(object):
 	def __init__(self, color):

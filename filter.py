@@ -17,9 +17,9 @@ class Filter(object):
 		
 	def by_color_and_size(self, products, product_color, product_size):
 		sizeFilter = SizeFilter(product_size)
-		sizeFilteredProducts = self.filter_by_strategy(sizeFilter, products)
 		colorFilter = ColorFilter(product_color)
-		return self.filter_by_strategy(colorFilter, sizeFilteredProducts)
+		multiFilter = MultiFilter(sizeFilter, colorFilter)
+		return self.filter_by_strategy(multiFilter, products)
 
 class ColorFilter(object):
 	def __init__(self, color):
@@ -35,3 +35,12 @@ class SizeFilter(object):
 	def equals(self, product):
 		return product.Size == self.size
 		
+class MultiFilter(object):
+	def __init__(self, *filters):
+		self.filters = filters
+		
+	def equals(self, product):
+		for filter in self.filters:
+			if not filter.equals(product):
+				return False
+		return True

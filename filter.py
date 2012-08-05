@@ -1,20 +1,19 @@
 #coding:utf-8
 class Filter(object):
-	def by_color(self, products, product_color):
-		colorFilter = ColorFilter(product_color)
+	def filter_by_strategy(self, filter, products):
 		result = []
 		for product in products:
-			if colorFilter.equals(product):
+			if filter.equals(product):
 				result.append(product)
 		return result
 		
+	def by_color(self, products, product_color):
+		colorFilter = ColorFilter(product_color)
+		return self.filter_by_strategy(colorFilter, products)
+		
 	def by_size(self, products, product_size):
 		sizeFilter = SizeFilter(product_size)
-		result = []
-		for product in products:
-			if sizeFilter.equals(product):
-				result.append(product)
-		return result
+		return self.filter_by_strategy(sizeFilter, products)
 		
 	def by_color_and_size(self, products, product_color, product_size):
 		result = []

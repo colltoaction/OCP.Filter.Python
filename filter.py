@@ -9,9 +9,10 @@ class Filter(object):
 		return result
 		
 	def by_size(self, products, product_size):
+		sizeFilter = SizeFilter(product_size)
 		result = []
 		for product in products:
-			if product.Size == product_size:
+			if sizeFilter.equals(product):
 				result.append(product)
 		return result
 		
@@ -28,4 +29,11 @@ class ColorFilter(object):
 		
 	def equals(self, product):
 		return product.Color == self.color
+		
+class SizeFilter(object):
+	def __init__(self, size):
+		self.size = size
+		
+	def equals(self, product):
+		return product.Size == self.size
 		

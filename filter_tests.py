@@ -1,36 +1,38 @@
 #coding:utf-8
 import unittest
-from filter import Filter
+from filter import ColorFilter, SizeFilter, MultiFilter
 from product import Product
 from product_color import ProductColor
 from product_size import ProductSize
 
 class TestFilter(unittest.TestCase):
 	def test_filter_by_blue_return_2(self):
-		filter = Filter()
+		filter = ColorFilter(ProductColor.Blue)
 		products = BuildProducts()
 		
-		result = filter.by_color(products, ProductColor.Blue)
+		result = filter.matching(products)
 		
 		self.assertEqual(2, len(result))
 		for product in result:
 			self.assertEqual(product.Color, ProductColor.Blue)
 			
 	def test_filter_by_small_return_2(self):
-		filter = Filter()
+		filter = SizeFilter(ProductSize.Small)
 		products = BuildProducts()
 		
-		result = filter.by_size(products, ProductSize.Small)
+		result = filter.matching(products)
 		
 		self.assertEqual(2, len(result))
 		for product in result:
 			self.assertEqual(product.Size, ProductSize.Small)
 			
 	def test_filter_by_blue_and_small_return_1(self):
-		filter = Filter()
+		colorFilter = ColorFilter(ProductColor.Blue)
+		sizeFilter = SizeFilter(ProductSize.Small)
+		filter = MultiFilter(colorFilter, sizeFilter)
 		products = BuildProducts()
 		
-		result = filter.by_color_and_size(products, ProductColor.Blue, ProductSize.Small)
+		result = filter.matching(products)
 		
 		self.assertEqual(1, len(result))
 		for product in result:
